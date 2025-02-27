@@ -148,56 +148,56 @@
         }
 
         // Test JavaScript code (Mocha)
-        describe('Calculator Tests', function() {
-            it('should add two numbers correctly', function() {
-                expect(add(5, 3)).to.equal(8);
-            });
+       describe('Calculator Tests', function() {
+    it('should add two numbers correctly', function() {
+        expect(add(5, 3)).to.equal(8);
+    });
 
-            it('should subtract two numbers correctly', function() {
-                expect(subtract(5, 3)).to.equal(2);
-            });
+    it('should subtract two numbers correctly', function() {
+        expect(subtract(5, 3)).to.equal(2);
+    });
 
-            it('should multiply two numbers correctly', function() {
-                expect(multiply(5, 3)).to.equal(15);
-            });
+    it('should multiply two numbers correctly', function() {
+        expect(multiply(5, 3)).to.equal(15);
+    });
 
-            it('should divide two numbers correctly', function() {
-                expect(divide(6, 3)).to.equal(2);
-            });
+    it('should divide two numbers correctly', function() {
+        expect(divide(6, 3)).to.equal(2);
+    });
 
-            it('should handle division by zero', function() {
-                expect(divide(6, 0)).to.equal("Division by zero!");
-            });
+    it('should handle division by zero', function() {
+        expect(divide(6, 0)).to.equal("Division by zero!");
+    });
 
-            it('should log invalid inputs', function() {
-                const invalidInputs = [];
-                const originalCalculate = calculate;
+    it('should log invalid inputs', function() {
+        const invalidInputs = [];
+        const originalCalculate = calculate;
 
-                calculate = function(num1, num2) {
-                    if (isNaN(parseFloat(num1)) || isNaN(parseFloat(num2)) || num1 === "" || num2 === "" || num1 === null || num2 === null || num1 === undefined || num2 === undefined) {
-                        invalidInputs.push({ num1, num2 });
-                        document.getElementById("error").textContent = "Invalid input!";
-                    }
-                    originalCalculate(num1, num2);
-                };
+        calculate = function(num1, num2) {
+            if (isNaN(parseFloat(num1)) || isNaN(parseFloat(num2)) || num1 === "" || num2 === "" || num1 === null || num2 === null || num1 === undefined || num2 === undefined) {
+                invalidInputs.push({ num1, num2 });
+                document.getElementById("error").textContent = "Invalid input!";
+            }
+            originalCalculate(num1, num2);
+        };
 
-                calculate("1.5", "2");
-                calculate("abc", "2");
-                calculate("", "2");
-                calculate(null, "2");
-                calculate(undefined, "2");
+        calculate("1.5", "2");
+        calculate("abc", "2");
+        calculate("", "2");
+        calculate(null, "2");
+        calculate(undefined, "2");
 
-                expect(invalidInputs).to.deep.equal([
-                    { num1: "1.5", num2: "2" },
-                    { num1: "abc", num2: "2" },
-                    { num1: "", num2: "2" },
-                    { num1: null, num2: "2" },
-                    { num1: undefined, num2: "2" }
-                ]);
-                console.log(invalidInputs);
-                calculate = originalCalculate;
-            });
-        });
+        expect(invalidInputs).to.deep.equal([
+            { num1: "1.5", num2: "2" },
+            { num1: "abc", num2: "2" },
+            { num1: "", num2: "2" },
+            { num1: null, num2: "2" },
+            { num1: undefined, num2: "2" }
+        ]);
+        console.log(invalidInputs);
+        calculate = originalCalculate;
+    });
+});
 
         mocha.run();
     </script>
