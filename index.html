@@ -94,7 +94,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/9.1.1/mocha.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.3.4/chai.min.js"></script>
 
-    <script>
+   <script>
         mocha.setup('bdd');
         const expect = chai.expect;
 
@@ -173,8 +173,8 @@
                 const invalidInputs = [];
                 const originalCalculate = calculate;
 
-               calculate = function(num1, num2) {
-                    if (isNaN(num1) || isNaN(num2) || num1 === "" || num2 === "" || num1 === null || num2 === null || num1 === undefined || num2 === undefined) {
+                calculate = function(num1, num2) {
+                    if (isNaN(parseFloat(num1)) || isNaN(parseFloat(num2)) || num1 === "" || num2 === "" || num1 === null || num2 === null || num1 === undefined || num2 === undefined) {
                         invalidInputs.push({ num1, num2 });
                         document.getElementById("error").textContent = "Invalid input!";
                     }
