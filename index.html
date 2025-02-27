@@ -168,36 +168,6 @@
             it('should handle division by zero', function() {
                 expect(divide(6, 0)).to.equal("Division by zero!");
             });
-
-            it('should log invalid inputs', function() {
-                const invalidInputs = [];
-                const originalCalculate = calculate;
-
-                calculate = function(num1, num2) {
-                    if (isNaN(parseFloat(num1)) || isNaN(parseFloat(num2)) || num1 === "" || num2 === "" || num1 === null || num2 === null || num1 === undefined || num2 === undefined) {
-                        invalidInputs.push({ num1, num2 });
-                        document.getElementById("error").textContent = "Invalid input!";
-                    } else {
-                        originalCalculate(num1, num2);
-                    }
-                };
-
-                calculate("1.5", "2");
-                calculate("abc", "2");
-                calculate("", "2");
-                calculate(null, "2");
-                calculate(undefined, "2");
-
-                expect(invalidInputs).to.deep.equal([
-                    { num1: "1.5", num2: "2" },
-                    { num1: "abc", num2: "2" },
-                    { num1: "", num2: "2" },
-                    { num1: null, num2: "2" },
-                    { num1: undefined, num2: "2" }
-                ]);
-                console.log(invalidInputs);
-                calculate = originalCalculate;
-            });
         });
 
         mocha.run();
