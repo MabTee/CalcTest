@@ -75,14 +75,14 @@
     <h1>Calculator</h1>
 
     <div class="calculator">
-        <input type="number" id="num1" placeholder="First number">
+        <input type="text" id="num1" placeholder="First number">
         <select id="operation">
             <option value="add">+</option>
             <option value="subtract">-</option>
             <option value="multiply">*</option>
             <option value="divide">/</option>
         </select>
-        <input type="number" id="num2" placeholder="Second number">
+        <input type="text" id="num2" placeholder="Second number">
         <button onclick="calculate()">Calculate</button>
         <p id="result"></p>
         <p class="error" id="error"></p>
@@ -94,7 +94,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/9.1.1/mocha.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.3.4/chai.min.js"></script>
 
-  <script>
+    <script>
         mocha.setup('bdd');
         const expect = chai.expect;
 
@@ -167,6 +167,36 @@
 
             it('should handle division by zero', function() {
                 expect(divide(6, 0)).to.equal("Division by zero!");
+            });
+
+            it('should log invalid inputs', function() {
+                const invalidInputs = [];
+                const originalCalculate = calculate;
+
+                calculate = function(num1, num2) {
+                    if (isNaN(parseFloat(num1)) || isNaN(parseFloat(num2)) || num1 === "" || num2 === "" || num1 === null || num2 === null || num1 === undefined || num2 === undefined) {
+                        invalidInputs.push({ num1, num2 });
+                        document.getElementById("error").textContent = "Invalid input!";
+                    } else {
+                        originalCalculate(num1, num2);
+                    }
+                };
+
+                calculate("1.5", "2");
+                calculate("abc", "2");
+                calculate("", "2");
+                calculate(null, "2");
+                calculate(undefined, "2");
+
+                expect(invalidInputs).to.deep.equal([
+                    { num1: "1.5", num2: "2" },
+                    { num1: "abc", num2: "2" },
+                    { num1: "", num2: "2" },
+                    { num1: null, num2: "2" },
+                    { num1: undefined, num2: "2" }
+                ]);
+                console.log(invalidInputs);
+                calculate = originalCalculate;
             });
         });
 
