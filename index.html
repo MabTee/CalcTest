@@ -75,14 +75,14 @@
     <h1>Calculator</h1>
 
     <div class="calculator">
-        <input type="text" id="num1" placeholder="First number">
+        <input type="number" id="num1" placeholder="First number">
         <select id="operation">
             <option value="add">+</option>
             <option value="subtract">-</option>
             <option value="multiply">*</option>
             <option value="divide">/</option>
         </select>
-        <input type="text" id="num2" placeholder="Second number">
+        <input type="number" id="num2" placeholder="Second number">
         <button onclick="calculate()">Calculate</button>
         <p id="result"></p>
         <p class="error" id="error"></p>
@@ -125,6 +125,11 @@
             }
 
             document.getElementById("error").textContent = "";
+
+            if (!Number.isInteger(parseFloat(num1)) || !Number.isInteger(parseFloat(num2))) {
+                document.getElementById("error").textContent = "Invalid input! Only integers are allowed.";
+                return;
+            }
 
             const operation = document.getElementById("operation").value;
             let result;
@@ -174,9 +179,9 @@
                 const originalCalculate = calculate;
 
                 calculate = function(num1, num2) {
-                    if (isNaN(parseFloat(num1)) || isNaN(parseFloat(num2)) || num1 === "" || num2 === "" || num1 === null || num2 === null || num1 === undefined || num2 === undefined) {
+                    if (!Number.isInteger(parseFloat(num1)) || !Number.isInteger(parseFloat(num2))) {
                         invalidInputs.push({ num1, num2 });
-                        document.getElementById("error").textContent = "Invalid input!";
+                        document.getElementById("error").textContent = "Invalid input! Only integers are allowed.";
                     } else {
                         originalCalculate(num1, num2);
                     }
@@ -199,7 +204,9 @@
                 calculate = originalCalculate;
             });
         });
+
         mocha.run();
     </script>
 </body>
+
 </html>
