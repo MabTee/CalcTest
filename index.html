@@ -1,62 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Számológép és Tesztek</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator and Tests</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/9.1.1/mocha.min.css">
     <style>
         body {
-            font-family: sans-serif;
+            font-family: 'Arial', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
+            justify-content: flex-start; /* Top alignment */
+            min-height: 100vh; /* Ensure full viewport height */
             margin: 0;
+            background-color: #f4f4f4;
+            padding-top: 20px; /* Add some padding at the top */
         }
 
         .calculator {
-            border: 1px solid #ccc;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+            margin-bottom: 20px;
         }
 
-        input[type="number"], select, button {
+        .calculator input, .calculator select, .calculator button {
+            width: calc(100% - 22px); /* Adjust for padding and border */
             padding: 10px;
-            margin: 5px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box; /* Include padding and border in element's total width and height */
         }
 
-        button {
+        .calculator button {
             background-color: #007bff;
             color: white;
+            border: none;
             cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .calculator button:hover {
+            background-color: #0056b3;
         }
 
         #result {
-            margin-top: 10px;
+            margin-top: 20px;
             font-weight: bold;
+            color: #333;
+        }
+
+        #mocha {
+            width: 80%;
+            max-width: 800px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Számológép</h1>
+    <h1>Calculator</h1>
 
     <div class="calculator">
-        <input type="number" id="num1" placeholder="Első szám">
+        <input type="number" id="num1" placeholder="First number">
         <select id="operation">
             <option value="add">+</option>
             <option value="subtract">-</option>
             <option value="multiply">*</option>
             <option value="divide">/</option>
         </select>
-        <input type="number" id="num2" placeholder="Második szám">
-        <button onclick="calculate()">Számol</button>
+        <input type="number" id="num2" placeholder="Second number">
+        <button onclick="calculate()">Calculate</button>
         <p id="result"></p>
     </div>
 
-    <h1>Tesztek</h1>
+    <h1>Tests</h1>
     <div id="mocha"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/9.1.1/mocha.min.js"></script>
@@ -66,7 +92,7 @@
         mocha.setup('bdd');
         const expect = chai.expect;
 
-        // Számológép JavaScript kód
+        // Calculator JavaScript code
         function add(a, b) {
             return a + b;
         }
@@ -81,7 +107,7 @@
 
         function divide(a, b) {
             if (b === 0) {
-                return "Nullával való osztás!";
+                return "Division by zero!";
             }
             return a / b;
         }
@@ -107,10 +133,10 @@
                     break;
             }
 
-            document.getElementById("result").textContent = "Eredmény: " + result;
+            document.getElementById("result").textContent = "Result: " + result;
         }
 
-        // Tesztelő JavaScript kód (Mocha)
+        // Test JavaScript code (Mocha)
         describe('Calculator Tests', function() {
             it('should add two numbers correctly', function() {
                 expect(add(5, 3)).to.equal(8);
@@ -129,7 +155,7 @@
             });
 
             it('should handle division by zero', function() {
-                expect(divide(6, 0)).to.equal("Nullával való osztás!");
+                expect(divide(6, 0)).to.equal("Division by zero!");
             });
         });
 
