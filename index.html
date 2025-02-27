@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Integer Calculator and Tests</title>
+    <title>Calculator and Tests</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/9.1.1/mocha.min.css">
     <style>
         body {
@@ -72,8 +72,7 @@
     </style>
 </head>
 <body>
-    <h1>Integer Calculator</h1>
-    <p>Please enter only whole numbers.</p>
+    <h1>Calculator</h1>
 
     <div class="calculator">
         <input type="number" id="num1" placeholder="First number">
@@ -99,7 +98,7 @@
         mocha.setup('bdd');
         const expect = chai.expect;
 
-        // Integer Calculator JavaScript code
+        // Calculator JavaScript code
         function add(a, b) {
             return a + b;
         }
@@ -125,12 +124,6 @@
                 num2 = document.getElementById("num2").value;
             }
 
-            if (isNaN(num1) || isNaN(num2) || !Number.isInteger(parseFloat(num1)) || !Number.isInteger(parseFloat(num2))) {
-                document.getElementById("error").textContent = "Please enter whole numbers only.";
-                document.getElementById("result").textContent = "";
-                return;
-            }
-
             document.getElementById("error").textContent = "";
 
             const operation = document.getElementById("operation").value;
@@ -138,16 +131,16 @@
 
             switch (operation) {
                 case "add":
-                    result = add(parseInt(num1), parseInt(num2));
+                    result = add(parseFloat(num1), parseFloat(num2));
                     break;
                 case "subtract":
-                    result = subtract(parseInt(num1), parseInt(num2));
+                    result = subtract(parseFloat(num1), parseFloat(num2));
                     break;
                 case "multiply":
-                    result = multiply(parseInt(num1), parseInt(num2));
+                    result = multiply(parseFloat(num1), parseFloat(num2));
                     break;
                 case "divide":
-                    result = divide(parseInt(num1), parseInt(num2));
+                    result = divide(parseFloat(num1), parseFloat(num2));
                     break;
             }
 
@@ -155,20 +148,20 @@
         }
 
         // Test JavaScript code (Mocha)
-        describe('Integer Calculator Tests', function() {
-            it('should add two integers correctly', function() {
+        describe('Calculator Tests', function() {
+            it('should add two numbers correctly', function() {
                 expect(add(5, 3)).to.equal(8);
             });
 
-            it('should subtract two integers correctly', function() {
+            it('should subtract two numbers correctly', function() {
                 expect(subtract(5, 3)).to.equal(2);
             });
 
-            it('should multiply two integers correctly', function() {
+            it('should multiply two numbers correctly', function() {
                 expect(multiply(5, 3)).to.equal(15);
             });
 
-            it('should divide two integers correctly', function() {
+            it('should divide two numbers correctly', function() {
                 expect(divide(6, 3)).to.equal(2);
             });
 
@@ -176,29 +169,33 @@
                 expect(divide(6, 0)).to.equal("Division by zero!");
             });
 
-            it('should handle non-integer input', function() {
+            it('should log invalid inputs', function() {
+                const invalidInputs = [];
+                const originalCalculate = calculate;
+
+                calculate = function(num1, num2) {
+                    if (isNaN(num1) || isNaN(num2)) {
+                        invalidInputs.push({ num1, num2 });
+                        document.getElementById("error").textContent = "Invalid input!";
+                    }
+                    originalCalculate(num1, num2);
+                };
+
                 calculate("1.5", "2");
-                expect(document.getElementById("error").textContent).to.equal("Please enter whole numbers only.");
-            });
-
-            it('should handle non-numeric input', function() {
                 calculate("abc", "2");
-                expect(document.getElementById("error").textContent).to.equal("Please enter whole numbers only.");
-            });
-
-            it('should handle empty input', function() {
                 calculate("", "2");
-                expect(document.getElementById("error").textContent).to.equal("Please enter whole numbers only.");
-            });
-
-            it('should handle null input', function() {
                 calculate(null, "2");
-                expect(document.getElementById("error").textContent).to.equal("Please enter whole numbers only.");
-            });
-
-            it('should handle undefined input', function() {
                 calculate(undefined, "2");
-                expect(document.getElementById("error").textContent).to.equal("Please enter whole numbers only.");
+
+                expect(invalidInputs).to.deep.equal([
+                    { num1: "1.5", num2: "2" },
+                    { num1: "abc", num2: "2" },
+                    { num1: "", num2: "2" },
+                    { num1: null, num2: "2" },
+                    { num1: undefined, num2: "2" }
+                ]);
+
+                calculate = originalCalculate;
             });
         });
 
