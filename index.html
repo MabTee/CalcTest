@@ -119,9 +119,11 @@
             return a / b;
         }
 
-        function calculate() {
-            const num1 = document.getElementById("num1").value;
-            const num2 = document.getElementById("num2").value;
+        function calculate(num1, num2) {
+            if (num1 === undefined || num2 === undefined) {
+                num1 = document.getElementById("num1").value;
+                num2 = document.getElementById("num2").value;
+            }
 
             if (isNaN(num1) || isNaN(num2) || !Number.isInteger(parseFloat(num1)) || !Number.isInteger(parseFloat(num2))) {
                 document.getElementById("error").textContent = "Please enter whole numbers only.";
@@ -175,16 +177,27 @@
             });
 
             it('should handle non-integer input', function() {
-                document.getElementById("num1").value = "1.5";
-                document.getElementById("num2").value = "2";
-                calculate();
+                calculate("1.5", "2");
                 expect(document.getElementById("error").textContent).to.equal("Please enter whole numbers only.");
             });
 
             it('should handle non-numeric input', function() {
-                document.getElementById("num1").value = "abc";
-                document.getElementById("num2").value = "2";
-                calculate();
+                calculate("abc", "2");
+                expect(document.getElementById("error").textContent).to.equal("Please enter whole numbers only.");
+            });
+
+            it('should handle empty input', function() {
+                calculate("", "2");
+                expect(document.getElementById("error").textContent).to.equal("Please enter whole numbers only.");
+            });
+
+            it('should handle null input', function() {
+                calculate(null, "2");
+                expect(document.getElementById("error").textContent).to.equal("Please enter whole numbers only.");
+            });
+
+            it('should handle undefined input', function() {
+                calculate(undefined, "2");
                 expect(document.getElementById("error").textContent).to.equal("Please enter whole numbers only.");
             });
         });
