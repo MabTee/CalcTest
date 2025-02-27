@@ -173,8 +173,8 @@
                 const invalidInputs = [];
                 const originalCalculate = calculate;
 
-                calculate = function(num1, num2) {
-                    if (isNaN(num1) || isNaN(num2)) {
+               calculate = function(num1, num2) {
+                    if (isNaN(num1) || isNaN(num2) || num1 === "" || num2 === "" || num1 === null || num2 === null || num1 === undefined || num2 === undefined) {
                         invalidInputs.push({ num1, num2 });
                         document.getElementById("error").textContent = "Invalid input!";
                     }
